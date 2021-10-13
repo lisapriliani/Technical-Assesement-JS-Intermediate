@@ -1,92 +1,109 @@
-//-----------------Nomor 1-----------------
-const arr1 = [1, 2, 3, 4, 5];
-const arr2 = [0, 3, 1, 10, 22];
+// ---------------------------Nomor 1---------------------------
 
-function sumOfArray(arr) { 
-  let sum = 0;                                   
+const person = {
+  name: "person A",
+  age: 100,
+  favDrinks: ["coffee", "jamu temulawak", "tea"],
+  greeting: function (nama) {
+    return `Hello, ${nama}`;
+  },
+};
 
-  for(let i = 0; i < arr.length; i++) {           
-    if(Array.isArray(arr[i])) {                   
-      sum += sumOfArray(arr[i]);                    
-    } else {                                      
-      sum += arr[i];                              
+/// EDIT HERE
+person.name = "Dwi Yanto Subastian";
+person.favDrinks[1] = "tap water";
+
+console.log(person.name);
+console.log(person.age);
+console.log(person.favDrinks);
+console.log(person.greeting("John Watson"));
+
+// ---------------------------Nomor 2---------------------------
+
+function getObjectValue(obj, p) {
+  const path = p.split(".");
+  let result = obj;
+  for (let i = 0; i < path.length; i++) {
+    if (result === null) {
+      break;
+    }
+    const activeVal = path[i];
+    const activeObj = result[activeVal];
+    if (activeObj !== undefined) {
+      result = activeObj;
+    } else {
+      result = null;
     }
   }
-
-  return sum;
+  return result;
 }
 
-//-----------------Nomor 2-----------------
-const arr1 = [1, 2, 3, 4, 5];
-const arr2 = [0, 3, 1, 10, 22];
+const milkBasedCoffee = {
+  name: "latte",
+  ingredients: {
+    espresso: {
+      origin: "lampung",
+      roastProfile: "medium to dark",
+      ratio: 1,
+    },
+    milk: {
+      brand: "susu murni",
+      isVegan: false,
+      ratio: 5,
+    },
+  },
+};
 
-function sumOfArray(arr) { 
-  let sum = 0;                                   
+const espresso = getObjectValue(milkBasedCoffee, "ingredients.espresso.origin");
+const coffeeBrand = getObjectValue(milkBasedCoffee, "ingredients.espresso.brand");
+const isMilkVegan = getObjectValue(milkBasedCoffee, "ingredients.milk.isVegan");
 
-  for(let i = 0; i < arr.length; i++) {           
-    if(Array.isArray(arr[i])) {                   
-      sum += sumOfArray(arr[i]);                    
-    } else {                                      
-      sum += arr[i];                              
+console.log(espresso);
+console.log(coffeeBrand);
+console.log(isMilkVegan);
+
+// ---------------------------Nomor 3---------------------------
+const items = [
+  {
+    btc: { buy: 10, sell: 9 },
+    eth: { buy: 8, sell: 7.5 },
+    doge: { buy: 7, sell: 6.5 },
+    day: 1,
+  },
+  {
+    btc: { buy: 9, sell: 5 },
+    eth: { buy: 7, sell: 4 },
+    doge: { buy: 6, sell: 3 },
+    day: 2,
+  },
+  {
+    btc: { buy: 5, sell: 10 },
+    eth: { buy: 4, sell: 6 },
+    doge: { buy: 3, sell: 4 },
+    day: 3,
+  },
+];
+
+const calculateIncome = (items) => {
+  /// EDIT DOWN HERE
+  return items.reduce(
+    (acc, curr) => {
+      const btcSum = curr.btc.sell - curr.btc.buy;
+      const dogeSum = curr.doge.sell - curr.doge.buy;
+      const ethSum = curr.eth.sell - curr.eth.buy;
+
+      return {
+        btc: acc.btc + btcSum,
+        doge: acc.doge + dogeSum,
+        eth: acc.eth + ethSum,
+      };
+    },
+    {
+      btc: 0,
+      doge: 0,
+      eth: 0,
     }
-  }
+  );
+};
 
-  return sum;
-}
-
-const avg1 = sumOfArray(arr1) /arr1.length;
-const avg2 = sumOfArray(arr2) /arr2.length;
-
-function countAboveAvg(arr, avg) {
-  if(arr.length === 0){
-    return 0;
-  } return (arr[0] >= avg) + countAboveAvg(arr.slice(1), avg)
-}
-
-const totalAboveAvg1 = countAboveAvg(arr1, avg1);
-const totalAboveAvg2 = countAboveAvg(arr2, avg2);
-
-console.log(totalAboveAvg1);
-console.log(totalAboveAvg2);
-
-
-//-----------------Nomor 3-----------------
-const arr = [1, 2, 3, 4, 5];
-function searchInArray(arr, num) {
-    if (arr.length === 0) {
-        return "angka tidak ditemukan"
-    }
-    if(arr[arr.length-1] === num){
-        return "angka ditemukan pada index:" + (arr.length-1)
-    }
-    return searchInArray(arr.slice(0,-1), num)
-}
-
-// searchInArray(arr, 6);
-// searchInArray(arr, 1);
-// searchInArray(arr, 8);
-
-console.log(searchInArray(arr, 6));
-console.log(searchInArray(arr, 1));
-console.log(searchInArray(arr, 8));
-
-//-----------------Nomor 4-----------------
-
-function trianglePattern(huruf, n) {
-  if (huruf == 0){
-    return;
-  }
-  let space = "";
-  for(let i = 0; i < n; i++){
-    if(i < huruf - 1){
-      space += " "
-    }else{
-      space += String.fromCharCode(64 + (n - huruf + (i - huruf) + 2))
-    }
-  }
-  console.log(space);
-  trianglePattern(huruf - 1, n)
-
-}
-  
-trianglePattern(5, 5);
+console.log(calculateIncome(items));
